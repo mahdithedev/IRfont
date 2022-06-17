@@ -4,7 +4,8 @@ a google fonts clone made for fun
 
 url format: http://localhost:5100/font?family={font-family-name};{font-type},{font-weight}&display=swap
 
-> some examples
+ some examples
+ 
 > http://localhost:5100/font?family=Roboto;normal;400&display=swap
 > http://localhost:5100/font?family=Roboto;normal;400,200,300&display=swap
 > http://localhost:5100/font?family=Roboto;normal;400,200,300;italic,400,300&display=swap
