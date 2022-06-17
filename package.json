@@ -1,0 +1,29 @@
+{
+  "name": "irfonts",
+  "version": "1.0.0",
+  "description": "google fonts clone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon .",
+    "start": "node ."
+  },
+  "keywords": [
+    "fonts",
+    "font",
+    "google-fonts"
+  ],
+  "author": "Amir Mahdi",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "dependencies": {
+    "beautify": "^0.0.8",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "pg": "^8.7.3"
+  }
+}
