@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:5100/style.css" type="text/css" >
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        const matches = window.location.href.match(/\/[a-zA-Z]+/g);
+
+        const font = {
+            family:matches[matches.length-1].slice(1),
+            text:'',
+        }
+
+        if(font.family == 'Vazir') {
+            font.text = 'فونت محبوب وزیر به زبان فارسی';
+        } else {
+            font.text = 'Almost beforce we knew it, we had left the ground';
+        }
+
+        document.title = font.family;
+
+        const h1 = document.createElement('h1');
+        h1.innerText = font.family;
+
+        const div = document.createElement('p');
+        div.contentEditable = true;
+        div.innerText = font.text;
+        div.style.fontFamily = font.family;
+
+        document.body.append(h1 , div);
+
+    </script>
+        <button id='add1' >
+            400 اضافه کن
+        </button>
+        <button id='add2'>
+            200 اضافه کن
+        </button>
+        <div class="list">
+                <p id="url" class="url">
+                </p>
+                <button id="copy">
+                    کپی کن
+                </button>
+        </div>
+        <button class="show-btn">
+            فونت ها
+        </button>
+        <script>
+
+            document.querySelector('.show-btn').onclick = open;
+
+            function open(e) {
+                const button = e.target;
+                console.log(button);
+                if(button.className == 'show-btn') {
+                    button.className += '-open'
+                    document.querySelector('.list').className += '-open';
+                } else {
+                    button.className = 'show-btn';
+                    document.querySelector('.list-open').className = 'list';
+                }
+
+            };
+
+            let fonts = JSON.parse(localStorage.getItem('fonts'));
+            let baseUrl = 'http://localhost:5100/api/font?';
+
+            for(const family in fonts) {
+
+                const styles = fonts[family];
+
+                baseUrl += `f=${family}:`;
+
+                for(let i = 0 ; i < Object.keys(styles).length ; i++) {
+
+                    const style = Object.keys(styles)[i];
+
+                    const weights = styles[style];
+                    baseUrl  += `${style}@${weights.join(',')}`;
+
+                    if(i !== Object.keys(styles).length - 1) {
+                        baseUrl += ';';
+                    }
+                }
+
+                baseUrl += `&`;
+
+            };
+
+            baseUrl += `display=swap`;
+
+            document.querySelector('#url').innerText = baseUrl;
+
+            document.querySelector('#add1').onclick = e => {
+
+                if(!fonts) {
+                    fonts = {};
+                }
+
+                fonts[font.family] = fonts[font.family] || {}; 
+
+                const style = fonts[font.family]['Regular'] || [];
+
+                for(const weight of style) {
+                    if(weight == 400) {
+                        return;
+                    }
+                };
+
+                style.push(400);
+                fonts[font.family]['Regular'] = style;
+
+                const save = JSON.stringify(fonts);
+                localStorage.setItem('fonts' , save);
+
+            };
+
+            document.querySelector('#add2').onclick = async e => {
+
+                if(!fonts) {
+                    fonts = {};
+                }
+
+                fonts[font.family] = fonts[font.family] || {}; 
+
+                const style = fonts[font.family]['Regular'] || [];
+
+                for(const weight of style) {
+                    if(weight == 200) {
+                        return;
+                    }
+                };
+
+                style.push(200);
+                fonts[font.family]['Regular'] = style;
+                
+                const save = JSON.stringify(fonts);
+                localStorage.setItem('fonts' , save);
+
+            };
+
+            document.querySelector('#copy').onclick = e => {
+
+                const text = document.querySelector('#url').innerText;
+                navigator.clipboard.writeText(text);
+                alert('کپی شد');
+
+            };
+
+        </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+@import url(http://localhost:5100/api/font?f=Vazir:Regular@400&f=Roboto:Regular@400&f=Fascinate:Regular@400&display=swap);
+
+body {
+    overflow: hidden;
+}
+
+.card {
+    border: 1px solid black;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+
+.card .title , .card .content {
+    margin-left: 15px;
+}
+
+button {
+    font-family: 'Vazir';
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.show-btn {
+    position: absolute;
+    top:20px;
+    right: 20px;
+    transition-duration: 1s;
+}
+
+.list {
+    position: absolute;
+    top:20px;
+    right: -150px;
+    transition-duration: 1s;
+}
+
+.show-btn-open {
+    position: absolute;
+    top:20px;
+    right: 270px;
+    transition-duration: 1s;
+}
+
+.list-open {
+    position: absolute;
+    top:20px;
+    right: 100px;
+    transition-duration: 1s;
+}
+
+.url {
+    width: 150px;
+    word-wrap: break-word;
+    font-family: 'Roboto';
+}

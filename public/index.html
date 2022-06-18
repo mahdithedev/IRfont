@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css" type="text/css" >
+    <title>IRfonts</title>
+</head>
+<body>
+    <div id="container">
+
+    </div>
+    
+    <script>
+
+        const fonts = [
+            {
+                family:'Vazir',
+                text:'فونت محبوب وزیر به زبان فارسی',
+            },
+            {
+                family:'Roboto',
+                text:'Almost beforce we knew it, we had left the ground'
+            },
+            {
+                family:'Fascinate',
+                text:'Almost beforce we knew it, we had left the ground'
+            }
+        ];
+
+        const container = document.querySelector('#container');
+
+        fonts.forEach(font => {
+
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = e => {
+                window.location.href += `ui/font/${font.family}`;
+            };
+
+            const cardTitle = document.createElement('h1');
+            cardTitle.className = 'title';
+            cardTitle.innerText = font.family;
+
+            const cardContetn = document.createElement('p');
+            cardContetn.className = 'content';
+            cardContetn.innerText = font.text;
+            cardContetn.style.fontFamily = font.family;
+
+            card.append(cardTitle , cardContetn);
+            container.appendChild(card);
+
+        });
+    </script>
+            <button class="show-btn">
+                فونت ها
+            </button>
+            <script>
+    
+                document.querySelector('.show-btn').onclick = open;
+    
+                function open(e) {
+                    const button = e.target;
+                    console.log(button);
+                    if(button.className == 'show-btn') {
+                        button.className += '-open'
+                        document.querySelector('.list').className += '-open';
+                    } else {
+                        button.className = 'show-btn';
+                        document.querySelector('.list-open').className = 'list';
+                    }
+    
+                };
+            </script>
+</body>
+</html>

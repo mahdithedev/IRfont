@@ -30,21 +30,23 @@ const generateCss = (familyName , styleName , weight , display) => {
         `   font-family: '${familyName}';`,
         `   font-style: ${styleName};`,
         `   font-weight: ${weight};`,
-        `   ${display};`,
+        `   ${display}`,
         `   src: url(${host}/${familyName}-${styleName}-${weight}.ttf) format('truetype');`,
         `}\n\n`
     ].join('\n');
 
 };
 
-app.get('')
+app.get('/ui/font/:font' , (req , res) => {
+    res.sendFile(process.cwd() + '/public/' + 'font.html');
+});
 
 app.get('/api/font' , (req , res) => {
 
     const families = Array.isArray(req.query.f) ? req.query.f : [req.query.f];
 
     let css = '';
-    const display = req.query.display ? `font-display: ${req.query.display}` : '';
+    const display = req.query.display ? `font-display: ${req.query.display};` : '';
 
     for(const family of families) {
 
@@ -59,13 +61,13 @@ app.get('/api/font' , (req , res) => {
 
         for(const style of styles) {
 
-            const sliceIndex = family.indexOf('@');
+            const sliceIndex = style.indexOf('@');
 
             if(sliceIndex == -1) {
                 return res.send('');
             };
 
-            const styleName = style.slice(0 , sliceIndex)
+            const styleName = style.slice(0 , sliceIndex);
             const weights = style.slice(sliceIndex + 1).split(',');
 
             if(weights.length == 0) {
