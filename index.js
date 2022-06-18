@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 const host = `http://localhost:${PORT}`;
 
-const constructCss = (familyName , styleName , weight , display) => {
+const generateCss = (familyName , styleName , weight , display) => {
 
     return [
         `@font-face {`,
@@ -37,7 +37,9 @@ const constructCss = (familyName , styleName , weight , display) => {
 
 };
 
-app.get('/font' , (req , res) => {
+app.get('')
+
+app.get('/api/font' , (req , res) => {
 
     const families = Array.isArray(req.query.f) ? req.query.f : [req.query.f];
 
@@ -46,7 +48,6 @@ app.get('/font' , (req , res) => {
 
     for(const family of families) {
 
-        // http://localhost:5100/font?f=Vazir:normal@100,200,300;italic@400,500,600&f=Roboto
         const sliceIndex = family.indexOf(":");
         
         if(sliceIndex == -1) {
@@ -72,7 +73,7 @@ app.get('/font' , (req , res) => {
             }
 
             for(const weight of weights) {
-                css += constructCss(familyName , styleName , weight , display); 
+                css += generateCss(familyName , styleName , weight , display); 
             };
         };
     };
