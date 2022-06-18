@@ -7,8 +7,11 @@ url format: http://localhost:5100/font?f={fontfamily-name}:{font-style}@{font-we
  some examples
 
 > http://localhost:5100/font?f=Roboto:normal@400&display=swap
+
 > http://localhost:5100/font?f=Roboto:normal@400,200,300&display=swap
+
 > http://localhost:5100/font?f=Roboto:normal@400,200,300;italic@400,300&display=swap
+
 > http://localhost:5100/font?f=Roboto:normal@400&f=Vazir:normal@400&display=swap
 
 How to run:
