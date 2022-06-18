@@ -21,47 +21,67 @@ app.use(bodyParser.urlencoded({extended:true}));
 //     port: 5432,
 // });
 
-const host = `http://localhost:${PORT}`
+const host = `http://localhost:${PORT}`;
+
+const constructCss = (familyName , styleName , weight , display) => {
+
+    return [
+        `@font-face {`,
+        `   font-family: '${familyName}';`,
+        `   font-style: ${styleName};`,
+        `   font-weight: ${weight};`,
+        `   ${display};`,
+        `   src: url(${host}/${familyName}-${styleName}-${weight}.ttf) format('truetype');`,
+        `}\n\n`
+    ].join('\n');
+
+};
 
 app.get('/font' , (req , res) => {
-    
-    const families = Array.isArray(req.query.family) ? req.query.family : [req.query.family];
+
+    const families = Array.isArray(req.query.f) ? req.query.f : [req.query.f];
 
     let css = '';
     const display = req.query.display ? `font-display: ${req.query.display}` : '';
 
     for(const family of families) {
 
-        const sections = family.split(';');
-        const familyName = sections[0]; // get the family name
-        const styles = sections.slice(1);  // get the styles
+        // http://localhost:5100/font?f=Vazir:normal@100,200,300;italic@400,500,600&f=Roboto
+        const sliceIndex = family.indexOf(":");
+        
+        if(sliceIndex == -1) {
+            return res.send('');
+        };
+
+        const familyName = family.slice(0 , sliceIndex);
+        const styles = family.slice(sliceIndex + 1).split(';');
 
         for(const style of styles) {
 
-            const styleSections = style.split(',');
-            const styleName = styleSections[0];
-            const weights = styleSections.slice(1).map(weight => parseInt(weight));
+            const sliceIndex = family.indexOf('@');
+
+            if(sliceIndex == -1) {
+                return res.send('');
+            };
+
+            const styleName = style.slice(0 , sliceIndex)
+            const weights = style.slice(sliceIndex + 1).split(',');
+
+            if(weights.length == 0) {
+                return res.send('');
+            }
 
             for(const weight of weights) {
-                css += `@font-face {` +
-                    `font-family: '${familyName}';` +
-                    `font-style: ${styleName};` +
-                    `font-weight: ${weight};` +
-                    `${display};` +
-                    `src: url(${host}/${familyName}-${styleName}-${weight}.ttf) format('truetype');\n` +
-                    '}';
+                css += constructCss(familyName , styleName , weight , display); 
             };
         };
     };
 
     res.setHeader('Content-Type' , 'text/css; charset=utf-8');
-    res.send(beautify(css , {format:'css'}));
+    res.send(css);
 
 });
 
 app.listen(PORT , () => {
     console.log(`server is listening on http://localhost:${PORT}`);
 });
-
-// http://localhost:5100/font?
-// family=Vazir;italic,100,200;normal,100,200&family=Roborto;norm,w-100,w-400,w-800&display=swap
